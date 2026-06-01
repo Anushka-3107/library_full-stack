@@ -39,7 +39,11 @@ export default function Books() {
     try {
       await axios.delete(`${BASE}/books/${id}`);
       fetchBooks();
-    } catch { setError('Failed to delete book.'); }
+    } catch(err) { 
+       console.log(err.response?.data);
+       console.log(err);
+       setError('Failed to delete book because it is currently referenced in borrow records.');
+     }
   }
 
   return (

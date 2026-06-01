@@ -93,10 +93,18 @@ const deleteBook = async(req,res) => {
         message:'book deleted successfully'
     })
     } catch (error) {
-        res.status(500).json({
-            success:false,
-            message:'internal server error'
-        })
+        if(error.code === '23503'){
+           return res.status(400).json({
+      success: false,
+      message: 'Cannot delete book because it is currently referenced in borrow records.'
+    });
+        }
+
+         res.status(500).json({
+    success: false,
+    message: 'Internal server error'
+  });
+         
     }
 }
 
